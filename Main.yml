@@ -1,0 +1,51 @@
+mkdir -p mc_launcher/app/src/main/java/com/meulauncher/unificado && \
+mkdir -p mc_launcher/app/src/main/res/layout && \
+mkdir -p mc_launcher/app/src/main/jniLibs/armeabi-v7a && \
+cd mc_launcher && \
+echo '<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://android.com" package="com.meulauncher.unificado">
+    <application android:label="MC Unified" android:theme="@style/Theme.AppCompat">
+        <activity android:name=".MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+    </application>
+</manifest>' > app/src/main/AndroidManifest.xml && \
+echo 'package com.meulauncher.unificado;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LinearLayout root = new LinearLayout(this);
+        root.setOrientation(LinearLayout.VERTICAL);
+        Button j = new Button(this); j.setText("JAVA (v7a)");
+        Button b = new Button(this); b.setText("BEDROCK (v7a)");
+        root.addView(j); root.addView(b);
+        setContentView(root);
+    }
+}' > app/src/main/java/com/meulauncher/unificado/MainActivity.java && \
+echo 'buildscript { repositories { google(); mavenCentral() }
+    dependencies { classpath "com.android.tools.build:gradle:7.4.2" } }
+allprojects { repositories { google(); mavenCentral() } }' > build.gradle && \
+echo 'apply plugin: "com.android.application"
+android {
+    namespace "com.meulauncher.unificado"
+    compileSdk 33
+    defaultConfig {
+        applicationId "com.meulauncher.unificado"
+        minSdk 26
+        targetSdk 33
+        ndk { abiFilters "armeabi-v7a" }
+    }
+}
+dependencies {
+    implementation "androidx.appcompat:appcompat:1.6.1"
+}' > app/build.gradle && \
+echo "Estrutura criada com sucesso!"
